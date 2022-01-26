@@ -6,8 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <EditText
+        android:layout_width="299dp"
+        android:layout_height="55dp"
+        android:hint='Entrer le code'
+        android:id="@+id/idEditCode"
+        app:layout_constraintBottom_toTopOf="@+id/idBoutonEntrer"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/idBoutonCreer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Créer une salle"
@@ -15,10 +25,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.486" />
+        app:layout_constraintVertical_bias="0.513" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/idBoutonEntrer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Entrer"
@@ -26,19 +36,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.711" />
+        app:layout_constraintVertical_bias="0.638" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="409dp"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@+id/idBoutonCreer"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/idEditCode"
+        app:layout_constraintVertical_bias="0.399" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:hint="Entrer le code" />
-    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
