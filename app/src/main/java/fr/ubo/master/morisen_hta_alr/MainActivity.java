@@ -1,6 +1,7 @@
 package fr.ubo.master.morisen_hta_alr;
 
 import androidx.activity.result.ActivityResultCallback;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -29,22 +30,12 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
     private String TAG = "tag";
-    private FirebaseUser user;
-    private FirebaseAuth auth;
-
-    private ListView listViewPlayers;
-    private ArrayList<String> arrayListPlayers = new ArrayList<>();
-    private DatabaseReference firebaseRef;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         lunchAuthentifcation();
-
-        firebaseRef = FirebaseDatabase.getInstance().getReference();
-
     }
 
     public void lunchAuthentifcation() {
