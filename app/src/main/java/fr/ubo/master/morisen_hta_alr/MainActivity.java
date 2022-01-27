@@ -52,13 +52,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        lunchAuthentifcation();
+        //lunchAuthentifcation();
 
         //Créer une salle
         boutonCreerView = findViewById(R.id.idBoutonCreer);
         boutonEntrerView = findViewById(R.id.idBoutonEntrer);
         editCodeView = findViewById(R.id.idEditCode);
         progressBarView = findViewById(R.id.progressBar);
+        progressBarView.setVisibility(View.INVISIBLE);
 
         boutonCreerView.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -69,10 +70,10 @@ public class MainActivity extends AppCompatActivity {
                 checkTemp = true;
                 keyValue = "null";
                 codeInput = editCodeView.getText().toString();
-                boutonCreerView.onVisibilityAggregated(false);
-                boutonEntrerView.onVisibilityAggregated(false);
-                editCodeView.onVisibilityAggregated(false);
-                progressBarView.onVisibilityAggregated(true);
+                boutonCreerView.setVisibility(View.INVISIBLE);
+                boutonEntrerView.setVisibility(View.INVISIBLE);
+                editCodeView.setVisibility(View.INVISIBLE);
+                progressBarView.setVisibility(View.VISIBLE);
                 if(codeInput!="null" && codeInput!=""){
                     isCodeMade = true;
                     FirebaseDatabase.getInstance().getReference("codes").addValueEventListener(new ValueEventListener() {
@@ -84,10 +85,10 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void run() {
                                     if(check == true){
-                                        boutonCreerView.onVisibilityAggregated(true);
-                                        boutonEntrerView.onVisibilityAggregated(true);
-                                        editCodeView.onVisibilityAggregated(true);
-                                        progressBarView.onVisibilityAggregated(false);
+                                        boutonCreerView.setVisibility(View.VISIBLE);
+                                        boutonEntrerView.setVisibility(View.VISIBLE);
+                                        editCodeView.setVisibility(View.VISIBLE);
+                                        progressBarView.setVisibility(View.INVISIBLE);
                                     }else{
                                         FirebaseDatabase.getInstance().getReference("codes").push().setValue(codeInput);
                                         isValueAvailable(snapshot, codeInput);
@@ -110,10 +111,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }else{
-                    boutonCreerView.onVisibilityAggregated(true);
-                    boutonEntrerView.onVisibilityAggregated(true);
-                    editCodeView.onVisibilityAggregated(true);
-                    progressBarView.onVisibilityAggregated(false);
+                    boutonCreerView.setVisibility(View.VISIBLE);
+                    boutonEntrerView.setVisibility(View.VISIBLE);
+                    editCodeView.setVisibility(View.VISIBLE);
+                    progressBarView.setVisibility(View.INVISIBLE);
                     Toast.makeText(MainActivity.this, "Entrez un code valide", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -130,10 +131,10 @@ public class MainActivity extends AppCompatActivity {
                 codeInput = editCodeView.getText().toString();
                 if(codeInput != "null" && codeInput!=""){
                     isCodeMade = true;
-                    boutonCreerView.onVisibilityAggregated(false);
-                    boutonEntrerView.onVisibilityAggregated(false);
-                    editCodeView.onVisibilityAggregated(false);
-                    progressBarView.onVisibilityAggregated(true);
+                    boutonCreerView.setVisibility(View.INVISIBLE);
+                    boutonEntrerView.setVisibility(View.INVISIBLE);
+                    editCodeView.setVisibility(View.INVISIBLE);
+                    progressBarView.setVisibility(View.VISIBLE);
                     isCodeMade = false;
                     FirebaseDatabase.getInstance().getReference("codes").addValueEventListener(new ValueEventListener() {
                         @Override
@@ -145,15 +146,15 @@ public class MainActivity extends AppCompatActivity {
                                 public void run() {
                                     if (data == true){
                                         accepted();
-                                        boutonCreerView.onVisibilityAggregated(true);
-                                        boutonEntrerView.onVisibilityAggregated(true);
-                                        editCodeView.onVisibilityAggregated(true);
-                                        progressBarView.onVisibilityAggregated(false);
+                                        boutonCreerView.setVisibility(View.VISIBLE);
+                                        boutonEntrerView.setVisibility(View.VISIBLE);
+                                        editCodeView.setVisibility(View.VISIBLE);
+                                        progressBarView.setVisibility(View.INVISIBLE);
                                     }else{
-                                        boutonCreerView.onVisibilityAggregated(false);
-                                        boutonEntrerView.onVisibilityAggregated(false);
-                                        editCodeView.onVisibilityAggregated(false);
-                                        progressBarView.onVisibilityAggregated(true);
+                                        boutonCreerView.setVisibility(View.INVISIBLE);
+                                        boutonEntrerView.setVisibility(View.INVISIBLE);
+                                        editCodeView.setVisibility(View.INVISIBLE);
+                                        progressBarView.setVisibility(View.VISIBLE);
                                         Toast.makeText(MainActivity.this, "Code invalide", Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -203,17 +204,19 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void accepted(){
         //Redirection
-        //startActivity(Intent(this, redirection::class.java));
-        boutonCreerView.onVisibilityAggregated(true);
-        boutonEntrerView.onVisibilityAggregated(true);
-        editCodeView.onVisibilityAggregated(true);
-        progressBarView.onVisibilityAggregated(false);
+        Intent intent = new Intent(this, MainActivity2.class);
+        startActivity(intent);
+        boutonCreerView.setVisibility(View.VISIBLE);
+        boutonEntrerView.setVisibility(View.VISIBLE);
+        editCodeView.setVisibility(View.VISIBLE);
+        progressBarView.setVisibility(View.INVISIBLE);
     }
 
     public boolean isValueAvailable(DataSnapshot snapshot, String code) {
-        for(DataSnapshot userSnapshot: snapshot.getChildren()) {
-            if (snapshot.getValue() == code) {
-                keyValue = code;
+        for(DataSnapshot data: snapshot.getChildren()) {
+            String value = data.getValue().toString();
+            if (value == code) {
+                keyValue = data.getKey().toString();
                 return true;
             }
         }
